@@ -40,63 +40,99 @@ Type
 implementation
 
 uses
-  eRAMs.view.principal;
+  eRAMs.view.principal, eRAMs.Model.GerarRAMs, Winapi.Windows;
 
 { TControllerRAMs }
 
 function TControllerRAMs.Alunos(Alunos: tstrings): iControllerRAMs;
 begin
+    Result := Self;
     FAlunos := alunos;
 end;
 
 constructor TControllerRAMs.Create;
 begin
-   FAlunos := TStrings.Create;
+
 end;
 
 destructor TControllerRAMs.Destroy;
 begin
-  FAlunos.DisposeOf;
+
   inherited;
 end;
 
 function TControllerRAMs.Dias(Value: string): iControllerRAMs;
 begin
+    Result := Self;
     Fdias := Value;
 end;
 
 function TControllerRAMs.Fim(value: integer): iControllerRAMs;
 begin
+   Result := Self;
    Ffim := Value;
 end;
 
 function TControllerRAMs.Gerar: iControllerRAMs;
 begin
-
+   Result := self;
+   formprincipal.LayMsg.Visible := true;
+   FormPrincipal.TabMensagem.ActiveTab := formprincipal.TabProcessando;
+   formprincipal.Indicador.Enabled := True;
+   TThread.CreateAnonymousThread(
+   Procedure
+   begin
+    tmodelRAMs.New
+                .Dias(FDias)
+                .Turma(FTurma)
+                .Media(FMedia)
+                .Professor(FProfessor)
+                .Horario(FHorario)
+                .Meses(FMeses)
+                .Periodo(FPeriodo)
+                .Inicio(FInicio)
+                .Fim(FFim)
+                .licoes(FLicoes)
+                .Alunos(FAlunos)
+                .Gerar;
+    TThread.Synchronize(tthread.CurrentThread,
+    procedure
+    begin
+      FormPrincipal.TabMensagem.Next();
+      formprincipal.Indicador.Enabled := false;
+    end
+    );
+   end
+   ).Start;
 end;
 
 function TControllerRAMs.Horario(Value: string): iControllerRAMs;
 begin
+   Result := Self;
    Fhorario := Value;
 end;
 
 function TControllerRAMs.Inicio(Value: integer): iControllerRAMs;
 begin
+   Result := Self;
    Finicio := Value;
 end;
 
 function TControllerRAMs.licoes(Value: string): iControllerRAMs;
 begin
+   Result := Self;
    Flicoes := Value;
 end;
 
 function TControllerRAMs.Media(Value: string): iControllerRAMs;
 begin
+   Result := Self;
    Fmedia := Value;
 end;
 
 function TControllerRAMs.Meses(Value: string): iControllerRAMs;
 begin
+   Result := Self;
    Fmeses := Value;
 end;
 
@@ -107,16 +143,19 @@ end;
 
 function TControllerRAMs.Periodo(Value: string): iControllerRAMs;
 begin
+   Result := Self;
    Fperiodo := Value;
 end;
 
 function TControllerRAMs.Professor(Value: string): iControllerRAMs;
 begin
+   Result := Self;
    Fprofessor := Value;
 end;
 
 function TControllerRAMs.Turma(Value: String): iControllerRAMs;
 begin
+   Result := Self;
    Fturma := Value;
 end;
 

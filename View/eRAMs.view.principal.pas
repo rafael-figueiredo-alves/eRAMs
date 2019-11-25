@@ -315,9 +315,6 @@ end;
 
 procedure TFormPrincipal.BtGerarRamsClick(Sender: TObject);
 begin
-   formprincipal.LayMsg.Visible := true;
-   FormPrincipal.TabMensagem.ActiveTab := formprincipal.TabProcessando;
-   formprincipal.Indicador.Enabled := True;
     tcontrollerRAMs.New
                        .Dias(FDias)
                        .Turma(FTurma)

@@ -59,6 +59,7 @@ implementation
 
 function TModelRAMs.Alunos(Alunos: tstrings): iModelRAMs;
 begin
+   Result := Self;
    Falunos := Alunos;
 end;
 
@@ -75,11 +76,13 @@ end;
 
 function TModelRAMs.Dias(Value: string): iModelRAMs;
 begin
+   Result := Self;
    Fdias := Value;
 end;
 
 function TModelRAMs.Fim(value: integer): iModelRAMs;
 begin
+   Result := Self;
    Ffim := Value;
 end;
 
@@ -90,26 +93,31 @@ end;
 
 function TModelRAMs.Horario(Value: string): iModelRAMs;
 begin
+   Result := Self;
    Fhorario := Value;
 end;
 
 function TModelRAMs.Inicio(Value: integer): iModelRAMs;
 begin
+   Result := Self;
    Finicio := Value;
 end;
 
 function TModelRAMs.licoes(Value: string): iModelRAMs;
 begin
+   Result := Self;
    Flicoes := Value;
 end;
 
 function TModelRAMs.Media(Value: string): iModelRAMs;
 begin
+   Result := Self;
    Fmedia := Value;
 end;
 
 function TModelRAMs.Meses(Value: string): iModelRAMs;
 begin
+   Result := Self;
    Fmeses := Value;
 end;
 
@@ -120,16 +128,19 @@ end;
 
 function TModelRAMs.Periodo(Value: string): iModelRAMs;
 begin
+   Result := Self;
    Fperiodo := Value;
 end;
 
 function TModelRAMs.Professor(Value: string): iModelRAMs;
 begin
+   Result := Self;
    Fprofessor := Value;
 end;
 
 function TModelRAMs.Turma(Value: String): iModelRAMs;
 begin
+   Result := Self;
    Fturma := Value;
 end;
 
