@@ -42,7 +42,8 @@ Type
 implementation
 
 uses
-  eRAMs.Model.ConexaoBD, System.SysUtils, eRAMs.Model.ConexaoSOP;
+  System.SysUtils,
+  eRAMs.Model.Factory;
 
 { TControllerTurmas }
 
@@ -94,7 +95,7 @@ end;
 
 constructor TControllerTurmas.Create;
 begin
-   FConexaoSOP := TModelConexaobd.New;
+   FConexaoSOP := tModelFactory.New.Conexao;
 end;
 
 destructor TControllerTurmas.Destroy;

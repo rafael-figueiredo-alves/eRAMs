@@ -19,7 +19,8 @@ uses
   eRAMs.Model.Calendario in 'Model\eRAMs.Model.Calendario.pas',
   eRAMs.Controller.Calendario in 'Controller\eRAMs.Controller.Calendario.pas',
   eRAMs.Controller.GerarRAMs in 'Controller\eRAMs.Controller.GerarRAMs.pas',
-  eRAMs.Model.GerarRAMs in 'Model\eRAMs.Model.GerarRAMs.pas';
+  eRAMs.Model.GerarRAMs in 'Model\eRAMs.Model.GerarRAMs.pas',
+  eRAMs.Model.Factory in 'Model\eRAMs.Model.Factory.pas';
 
 {$R *.res}
 

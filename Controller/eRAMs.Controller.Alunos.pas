@@ -19,13 +19,13 @@ Type
 implementation
 
 uses
-  eRAMs.Model.ConexaoBD, FireDAC.Comp.Client, eRAMs.Model.ConexaoSOP;
+  FireDAC.Comp.Client, eRAMs.Model.Factory;
 
 { TControllerAlunos }
 
 constructor TControllerAlunos.Create;
 begin
-   FConexaoSOP := TModelConexaobd.New;
+   FConexaoSOP := tModelFactory.New.Conexao;
 end;
 
 destructor TControllerAlunos.Destroy;

@@ -191,8 +191,15 @@ type
     LabelMsg2: TLabel;
     LayMsg1: TLayout;
     LabelMsg1: TLabel;
-    Indicador: TAniIndicator;
     ImgSucessoMsg: TRectangle;
+    LayoutConfig11: TLayout;
+    LabelCFG11: TLabel;
+    EdCFGTestes: TSwitch;
+    TabErro: TTabItem;
+    LayoutMsg3: TLayout;
+    LabelMsgErro: TLabel;
+    imgMsgErro: TRectangle;
+    MsgAnimation: TAniIndicator;
     procedure MenuPrincipalStartShowing(Sender: TObject);
     procedure BtSalvaConfigClick(Sender: TObject);
     procedure BtRefreshPeriodosClick(Sender: TObject);
@@ -360,6 +367,7 @@ begin
      .Facebook(EdCFGFacebook.Text)
      .Instagram(EdCFGInstagram.Text)
      .Banco(EdCFGBanco.Text)
+     .Testes(EdCFGTestes.IsChecked)
      .Gravar;
     MenuPrincipal.HideMaster;
     ShowMessage('Configurações salvas com sucesso!');
@@ -506,7 +514,8 @@ begin
      .Email(EdCFGEmail)
      .Facebook(EdCFGFacebook)
      .Instagram(EdCFGInstagram)
-     .Banco(EdCFGBanco);
+     .Banco(EdCFGBanco)
+     .Testes(EdCFGTestes);
 end;
 
 procedure TFormPrincipal.Meses4Click(Sender: TObject);

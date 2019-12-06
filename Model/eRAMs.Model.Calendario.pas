@@ -104,7 +104,7 @@ begin
    FConexao := TFDConnection.Create(nil);
    Config := TModelConfiguracao.New;
    FConexao.DriverName := 'MSAcc';
-   FConexao.Params.Database := Config.Banco;
+   FConexao.Params.Database := Config.Banco + 'eRAMs.Calendario.mdb';
    FConexao.LoginPrompt := false;
 end;
 

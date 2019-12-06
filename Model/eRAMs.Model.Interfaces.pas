@@ -39,6 +39,8 @@ Type
     Function Instagram (Instagram: String) : iModelConfiguracao; Overload;
     Function Banco : string; Overload;
     Function Banco (Value: string) : iModelConfiguracao; overload;
+    Function Testes : Boolean; Overload;
+    Function Testes (Value: Boolean) : iModelConfiguracao; overload;
   End;
 
   iModelCalendario = interface
@@ -83,7 +85,12 @@ Type
     Function Fim (value : integer) : iModelRAMs;
     Function licoes (Value : string) : iModelRAMs;
     Function Alunos (Alunos : tstrings) : iModelRAMs;
-    Function Gerar : iModelRAMs;
+    Function Gerar : Boolean;
+  end;
+
+  iModelFactory = interface
+    ['{994703F6-90A1-4E6C-973E-AA21ACF756E9}']
+    Function Conexao : iModelConexaoSOP;
   end;
 
 

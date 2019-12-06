@@ -19,15 +19,15 @@ Type
 implementation
 
 uses
-  eRAMs.Model.ConexaoSOP, FMX.ListBox,
-  Data.DB, FMX.Dialogs, FireDAC.Comp.Client, eRAMs.Model.ConexaoBD,
-  System.SysUtils;
+  FMX.ListBox,
+  Data.DB, FMX.Dialogs, FireDAC.Comp.Client,
+  System.SysUtils, eRAMs.Model.Factory;
 
 { TControllerPeriodos }
 
 constructor TControllerPeriodos.Create;
 begin
-   FConexaoSOP := TModelConexaobd.New;
+   FConexaoSOP := tModelFactory.New.Conexao;
 end;
 
 destructor TControllerPeriodos.Destroy;

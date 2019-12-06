@@ -33,13 +33,15 @@ Type
      Function Instagram(Value: tobject): iControllerConfiguracao; Overload;
      Function Banco(Value: String): iControllerConfiguracao; Overload;
      Function Banco(Value: tobject): iControllerConfiguracao; Overload;
+     Function Testes(Value: Boolean): iControllerConfiguracao; Overload;
+     Function Testes(Value: tobject): iControllerConfiguracao; Overload;
      Function Gravar : iControllerConfiguracao;
   End;
 
 implementation
 
 uses
-  eRAMs.Model.Configuracao, FMX.Edit;
+  eRAMs.Model.Configuracao, FMX.Edit, FMX.StdCtrls;
 
 { TControllerConfiguracao }
 
@@ -167,6 +169,20 @@ function TControllerConfiguracao.Telefones(
 begin
    Result := self;
    tedit(value).Text := FConfiguracao.Telefones;
+end;
+
+function TControllerConfiguracao.Testes(
+  Value: tobject): iControllerConfiguracao;
+begin
+   Result := self;
+   tswitch(value).IsChecked := FConfiguracao.Testes;
+end;
+
+function TControllerConfiguracao.Testes(
+  Value: Boolean): iControllerConfiguracao;
+begin
+   Result := self;
+   FConfiguracao.Testes(Value);
 end;
 
 function TControllerConfiguracao.UID(Value: String): iControllerConfiguracao;

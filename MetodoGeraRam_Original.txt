@@ -1,0 +1,60 @@
+uses ComObj;
+
+Procedure tform1.GerarRAM(Modelo, modelo2, turmafolder, Nome, turma, prof, mid, finalex, oral: string);
+var
+ a: variant;
+ b: string;
+begin
+    a:= CreateOleObject('Excel.Application');
+    a.displayalerts:= false;
+    if modelo2 = '1'then
+     begin
+      if modelo = 'mod1' then
+       a.workbooks.open(extractfilepath(paramstr(0))+'CCAA-RAM-8-lessons.xlsm');
+      if modelo = 'mod2' then
+       a.workbooks.open(extractfilepath(paramstr(0))+'CCAA-RAM-10-lessons.xlsm');
+      if modelo = 'mod3' then
+       a.workbooks.open(extractfilepath(paramstr(0))+'CCAA-RAM-12-lessons.xlsm');
+     end
+    else
+     begin
+      if modelo = 'mod1' then
+       a.workbooks.open(extractfilepath(paramstr(0))+'KidCCAA-RAM-8-lessons.xlsm');
+      if modelo = 'mod2' then
+       a.workbooks.open(extractfilepath(paramstr(0))+'KidCCAA-RAM-10-lessons.xlsm');
+      if modelo = 'mod3' then
+       a.workbooks.open(extractfilepath(paramstr(0))+'KidCCAA-RAM-12-lessons.xlsm');
+     end;
+    a.workbooks[1].sheets[1].cells[29,3]:= nome;
+    a.workbooks[1].sheets[1].cells[29,8]:= turma;
+    a.workbooks[1].sheets[1].cells[29,11]:= prof;
+    a.workbooks[1].sheets[1].cells[67,2]:= mid;
+    a.workbooks[1].sheets[1].cells[67,10]:= finalex;
+    a.workbooks[1].sheets[1].cells[67,12]:= oral;
+    b:= GetStrNumber(a.version);
+    if strtoint(b) < 120 then
+     a.workbooks[1].saveas(Configquery1.fieldbyname('Caminhorams').asstring+'\'+combobox3.items.strings[combobox3.itemindex]+'\'+Turmafolder+'\'+nome+'.xlsm')
+    else
+     a.workbooks[1].saveas(Configquery1.fieldbyname('Caminhorams').asstring+'\'+combobox3.items.strings[combobox3.itemindex]+'\'+Turmafolder+'\'+nome+'.xlsm', 52);
+    a.quit;
+end;
+
+function GetStrNumber(const S: string): string;
+var
+  vText : PChar;
+begin
+  vText := PChar(S);
+  Result := '';
+
+  while (vText^ <> #0) do
+  begin
+    {$IFDEF UNICODE}
+    if CharInSet(vText^, ['0'..'9']) then
+    {$ELSE}
+    if vText^ in ['0'..'9'] then
+    {$ENDIF}
+      Result := Result + vText^;
+
+    Inc(vText);
+  end;
+end;

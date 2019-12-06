@@ -18,6 +18,7 @@ Type
      FFacebook  : String;
      FInstagram : String;
      FBanco     : String;
+     FTestes    : Boolean;
     Public
      Constructor Create;
      Destructor Destroy; Override;
@@ -43,6 +44,8 @@ Type
      Function Instagram (Instagram: String) : iModelConfiguracao; Overload;
      Function Banco : string; Overload;
      Function Banco (Value: string) : iModelConfiguracao; overload;
+     Function Testes : Boolean; Overload;
+     Function Testes (Value: Boolean) : iModelConfiguracao; overload;
   End;
 
 implementation
@@ -65,20 +68,24 @@ end;
 constructor TModelConfiguracao.Create;
 var cfg: tinifile;
     arq: string;
+    PastaRAMs, PastaBanco : string;
 begin
-   arq := Extractfilepath(ParamStr(0))+'config.ini';
+   PastaRAMs := ExtractFilePath(ParamStr(0)) + 'RAMs\';
+   PastaBanco := ExtractFilePath(ParamStr(0)) + 'BD\';
+   arq := Extractfilepath(ParamStr(0))+'eRAMs.config.ini';
    cfg := TIniFile.Create(arq);
    try
-     fservidor  := cfg.ReadString('SOP', 'Servidor', '192.168.4.40');
-     FUID       := cfg.ReadString('SOP', 'UID', 'SA');
-     FPWD       := cfg.ReadString('SOP', 'PWD', 'SQL');
-     FPastaRAMs := cfg.ReadString('Base', 'Pasta', 'c:\');
-     FUnidade   := cfg.ReadString('Dados', 'Unidade', 'CCAA Diadema');
-     FTelefones := cfg.ReadString('Dados', 'Telefones', '(11) 4306-0191 / (11) 91020-1921');
-     FEmail     := cfg.ReadString('Dados', 'Email', 'ccaadiadema@outlook.com');
-     FFacebook  := cfg.ReadString('Dados', 'Facebook', 'facebook.com/ccaadiadema');
-     FInstagram := cfg.ReadString('Dados', 'Instagram', '@ccaadiadema');
-     FBanco     := cfg.ReadString('Conexao', 'Banco', '\\192.168.4.40\Desk\DB\');
+     fservidor  := cfg.ReadString('SOP', 'Servidor', '');
+     FUID       := cfg.ReadString('SOP', 'UID', '');
+     FPWD       := cfg.ReadString('SOP', 'PWD', '');
+     FPastaRAMs := cfg.ReadString('Base', 'Pasta', PastaRAMs);
+     FUnidade   := cfg.ReadString('Dados', 'Unidade', 'Escola Teste');
+     FTelefones := cfg.ReadString('Dados', 'Telefones', '(11) 5555-5555 / (11) 66666-6666');
+     FEmail     := cfg.ReadString('Dados', 'Email', 'erams@gmail.com');
+     FFacebook  := cfg.ReadString('Dados', 'Facebook', 'facebook.com/erams');
+     FInstagram := cfg.ReadString('Dados', 'Instagram', '@erams');
+     FBanco     := cfg.ReadString('Conexao', 'Banco', PastaBanco);
+     FTestes    := cfg.ReadBool('Desenvolvimento', 'Testes', true);
    finally
      cfg.DisposeOf;
    end;
@@ -117,7 +124,7 @@ var cfg: tinifile;
     arq: string;
 begin
    Result := Self;
-   arq := Extractfilepath(ParamStr(0))+'config.ini';
+   arq := Extractfilepath(ParamStr(0))+'eRAMs.config.ini';
    cfg := TIniFile.Create(arq);
    try
      cfg.WriteString('SOP', 'Servidor', fservidor);
@@ -130,6 +137,7 @@ begin
      cfg.WriteString('Dados', 'Facebook', FFacebook);
      cfg.WriteString('Dados', 'Instagram', FInstagram);
      cfg.WriteString('Conexao', 'Banco', FBanco);
+     cfg.WriteBool('Desenvolvimento', 'Testes', FTestes);
    finally
      cfg.DisposeOf;
    end;
@@ -193,6 +201,17 @@ function TModelConfiguracao.Telefones(Telefones: String): iModelConfiguracao;
 begin
   Result := Self;
   FTelefones := Telefones;
+end;
+
+function TModelConfiguracao.Testes(Value: Boolean): iModelConfiguracao;
+begin
+    Result := Self;
+    FTestes := Value;
+end;
+
+function TModelConfiguracao.Testes: Boolean;
+begin
+   Result := FTestes;
 end;
 
 function TModelConfiguracao.UID: String;

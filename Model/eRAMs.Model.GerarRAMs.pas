@@ -35,6 +35,7 @@ Type
       FMes6      : string;
       FFeriados  : string;
       Fpasta     : string;
+      FExcel     : OleVariant;
     Public
       Constructor Create;
       Destructor Destroy; Override;
@@ -50,12 +51,14 @@ Type
       Function Fim (value : integer) : iModelRAMs;
       Function licoes (Value : string) : iModelRAMs;
       Function Alunos (Alunos : tstrings) : iModelRAMs;
-      Function Gerar : iModelRAMs;
+      Function Gerar : Boolean;
   End;
 
 implementation
 
 { TModelRAMs }
+
+Uses ComObj, System.Variants, Winapi.ActiveX;
 
 function TModelRAMs.Alunos(Alunos: tstrings): iModelRAMs;
 begin
@@ -86,9 +89,14 @@ begin
    Ffim := Value;
 end;
 
-function TModelRAMs.Gerar: iModelRAMs;
+function TModelRAMs.Gerar: Boolean;
 begin
-
+   Result := false;
+   CoInitializeEx(0, COINIT_MULTITHREADED);
+   FExcel :=  CreateOleObject('Excel.Application');
+   //FExcel.show;
+   Fexcel.quit;
+   FExcel := Unassigned;
 end;
 
 function TModelRAMs.Horario(Value: string): iModelRAMs;

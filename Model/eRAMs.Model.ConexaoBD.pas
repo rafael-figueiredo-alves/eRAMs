@@ -64,11 +64,8 @@ var Config: iModelConfiguracao;
 begin
    FConexao := TFDConnection.Create(nil);
    Config := TModelConfiguracao.New;
-   if (Config.Servidor <> '') and (config.UID <> '') and (Config.PWD <> '') then
-    begin
-      FConexao.DriverName := 'MSAcc';
-      FConexao.Params.Database := 'C:\JRD soluções\eRAMs\BD\sop.mdb';
-    end;
+   FConexao.DriverName := 'MSAcc';
+   FConexao.Params.Database := Config.Banco + 'eRAMs.base.mdb';
    FConexao.LoginPrompt := false;
 end;
 

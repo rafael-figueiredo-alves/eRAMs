@@ -74,11 +74,12 @@ begin
 end;
 
 function TControllerRAMs.Gerar: iControllerRAMs;
+Var Resultado : boolean;
 begin
    Result := self;
    formprincipal.LayMsg.Visible := true;
    FormPrincipal.TabMensagem.ActiveTab := formprincipal.TabProcessando;
-   formprincipal.Indicador.Enabled := True;
+   FormPrincipal.MsgAnimation.Enabled := true;
    TThread.CreateAnonymousThread(
    Procedure
    begin
@@ -98,8 +99,9 @@ begin
     TThread.Synchronize(tthread.CurrentThread,
     procedure
     begin
+      FormPrincipal.MsgAnimation.Enabled := False;
+      sleep(1000);
       FormPrincipal.TabMensagem.Next();
-      formprincipal.Indicador.Enabled := false;
     end
     );
    end

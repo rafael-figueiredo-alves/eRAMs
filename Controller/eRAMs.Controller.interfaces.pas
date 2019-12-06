@@ -30,6 +30,8 @@ Type
     Function Instagram(Value: tobject): iControllerConfiguracao; Overload;
     Function Banco(Value: String): iControllerConfiguracao; Overload;
     Function Banco(Value: tobject): iControllerConfiguracao; Overload;
+    Function Testes(Value: Boolean): iControllerConfiguracao; Overload;
+    Function Testes(Value: tobject): iControllerConfiguracao; Overload;
     Function Gravar : iControllerConfiguracao;
   end;
 
