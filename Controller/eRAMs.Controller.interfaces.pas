@@ -113,6 +113,17 @@ Type
     Function Gerar : iControllerRAMs;
   end;
 
+  iControllerFactory = interface
+    ['{3CAFBD7C-9C8D-4D07-B206-D16D882A2959}']
+    Function Configuracao : iControllerConfiguracao;
+    Function Periodos     : iControllerPeriodos;
+    Function turmas       : iControllerTurmas;
+    Function alunos       : iControllerAlunos;
+    Function Calendario   : iControllerCalendario;
+    Function RAMs         : iControllerRAMs;
+    Function Funcoes      : iControllerFuncoes;
+  end;
+
 implementation
 
 end.

@@ -88,9 +88,25 @@ Type
     Function Gerar : Boolean;
   end;
 
+  iModelFuncoes = interface
+    ['{089B3CE7-9466-49B3-9BE8-18480FFD7F8F}']
+    Function RemoveAsterisco (Value : string) : string;
+    Function TrocaBarra (Value : string) : string;
+    Function RemoveParenteses (Value : string) : string;
+    Function RemoveEspacosBrancos (Value : string) : string;
+    Function Mes (Value : integer) : string;
+    Function FormataNomeAluno (Value : string) : string;
+    Function FormataNomeProfessor (Value : string) : string;
+    Function FormataNomeTurma (Value : string) : string;
+  end;
+
   iModelFactory = interface
     ['{994703F6-90A1-4E6C-973E-AA21ACF756E9}']
-    Function Conexao : iModelConexaoSOP;
+    Function Conexao      : iModelConexaoSOP;
+    Function Configuracao : iModelConfiguracao;
+    Function Calendario   : iModelCalendario;
+    Function RAMs         : iModelRAMs;
+    Function Funcoes      : iModelFuncoes;
   end;
 
 

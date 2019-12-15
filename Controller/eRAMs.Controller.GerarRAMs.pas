@@ -40,7 +40,7 @@ Type
 implementation
 
 uses
-  eRAMs.view.principal, eRAMs.Model.GerarRAMs, Winapi.Windows;
+  eRAMs.view.principal, eRAMs.Model.GerarRAMs, Winapi.Windows, FMX.Dialogs;
 
 { TControllerRAMs }
 
@@ -75,8 +75,25 @@ end;
 
 function TControllerRAMs.Gerar: iControllerRAMs;
 Var Resultado : boolean;
+    Dias, turmas, media, professor, meses, periodo, licoes, horario : string;
+    inicio, Fim : Integer;
+    alunos : TStrings;
+    aluno : string;
 begin
    Result := self;
+   {for aluno in FAlunos do
+    ShowMessage(aluno);}
+   Dias := FDias;
+   turmas := FTurma;
+   media := FMedia;
+   Professor := FProfessor;
+   Meses := FMeses;
+   periodo := FPeriodo;
+   licoes := FLicoes;
+   inicio := FInicio;
+   Fim := FFim;
+   alunos := FAlunos;
+   Horario := FHorario;
    formprincipal.LayMsg.Visible := true;
    FormPrincipal.TabMensagem.ActiveTab := formprincipal.TabProcessando;
    FormPrincipal.MsgAnimation.Enabled := true;
@@ -84,24 +101,25 @@ begin
    Procedure
    begin
     tmodelRAMs.New
-                .Dias(FDias)
-                .Turma(FTurma)
-                .Media(FMedia)
-                .Professor(FProfessor)
-                .Horario(FHorario)
-                .Meses(FMeses)
-                .Periodo(FPeriodo)
-                .Inicio(FInicio)
-                .Fim(FFim)
-                .licoes(FLicoes)
-                .Alunos(FAlunos)
+                .Dias(Dias)
+                .Turma(Turmas)
+                .Media(Media)
+                .Professor(Professor)
+                .Horario(Horario)
+                .Meses(Meses)
+                .Periodo(Periodo)
+                .Inicio(Inicio)
+                .Fim(Fim)
+                .licoes(Licoes)
+                .Alunos(Alunos)
                 .Gerar;
     TThread.Synchronize(tthread.CurrentThread,
     procedure
     begin
       FormPrincipal.MsgAnimation.Enabled := False;
-      sleep(1000);
+      //sleep(1000);
       FormPrincipal.TabMensagem.Next();
+      FormPrincipal.AnimaMsgFecha.Start;
     end
     );
    end

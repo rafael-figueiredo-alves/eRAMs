@@ -200,6 +200,8 @@ type
     LabelMsgErro: TLabel;
     imgMsgErro: TRectangle;
     MsgAnimation: TAniIndicator;
+    AnimaMsgAbre: TFloatAnimation;
+    AnimaMsgFecha: TFloatAnimation;
     procedure MenuPrincipalStartShowing(Sender: TObject);
     procedure BtSalvaConfigClick(Sender: TObject);
     procedure BtRefreshPeriodosClick(Sender: TObject);
@@ -224,6 +226,7 @@ type
       const Item: TListBoxItem);
     procedure BtCalOKClick(Sender: TObject);
     procedure BtGerarRamsClick(Sender: TObject);
+    procedure AnimaMsgFechaFinish(Sender: TObject);
   private
     { Private declarations }
     FMeses  : string;
@@ -249,12 +252,14 @@ var
 implementation
 
 uses
-  eRAMs.Controller.configuracao, eRAMs.Controller.periodos,
-  eRAMs.Controller.turmas, eRAMs.Controller.Alunos,
-  eRAMs.Controller.interfaces, eRAMs.Controller.Funcoes,
-  eRAMs.Controller.Calendario, eRAMs.Controller.GerarRAMs;
+  eRAMs.Controller.Factory, eRAMs.Controller.interfaces;
 
 {$R *.fmx}
+
+procedure TFormPrincipal.AnimaMsgFechaFinish(Sender: TObject);
+begin
+     LayMsg.Visible := False;
+end;
 
 procedure TFormPrincipal.BtAddCalendarioClick(Sender: TObject);
 begin
@@ -288,7 +293,7 @@ end;
 procedure TFormPrincipal.BtCalOKClick(Sender: TObject);
 var teste : Boolean;
 begin
-   teste := TControllerCalendario.New
+   teste := TControllerFactory.New.Calendario
                                    .Dias(edDias.Text)
                                    .Mes1(edmes1.Text)
                                    .Mes2(edmes2.Text)
@@ -305,12 +310,12 @@ begin
    True: begin
           ShowMessage('Informações salvas com sucesso!');
           TabCalendarios.Previous();
-          TControllerCalendario.New.Listar(ListaDatasCalendario);
+          TControllerFactory.New.Calendario.Listar(ListaDatasCalendario);
          end;
    False: begin
            ShowMessage('Informações não conseguiram ser salvas com sucesso!');
            TabCalendarios.Previous();
-           TControllerCalendario.New.Listar(ListaDatasCalendario);
+           TControllerFactory.New.Calendario.Listar(ListaDatasCalendario);
           end;
   end;
 end;
@@ -322,7 +327,7 @@ end;
 
 procedure TFormPrincipal.BtGerarRamsClick(Sender: TObject);
 begin
-    tcontrollerRAMs.New
+    TControllerFactory.New.RAMs
                        .Dias(FDias)
                        .Turma(FTurma)
                        .Media(media.Selected.Text)
@@ -330,8 +335,8 @@ begin
                        .Horario(FHorario)
                        .Meses(FMeses)
                        .Periodo(FPeriodo)
-                       .Inicio(De.ItemIndex+1)
-                       .Fim(ate.ItemIndex+1)
+                       .Inicio(De.Selected.Index+1)
+                       .Fim(ate.Selected.Index+1)
                        .licoes(FLicoes)
                        .Alunos(ListaAlunos.Items)
                        .Gerar;
@@ -339,24 +344,24 @@ end;
 
 procedure TFormPrincipal.BtRefreshAlunosClick(Sender: TObject);
 begin
-    tcontrollerAlunos.New.Listar(Fperiodo, FCod_cur, fNum_Niv, FNum_Tur, ListaAlunos);
+    TControllerFactory.New.alunos.Listar(Fperiodo, FCod_cur, fNum_Niv, FNum_Tur, ListaAlunos);
 end;
 
 procedure TFormPrincipal.BtRefreshPeriodosClick(Sender: TObject);
 begin
-    tcontrollerPeriodos.New.Listar(ComboPeriodo);
+    TControllerFactory.New.Periodos.Listar(ComboPeriodo);
 end;
 
 procedure TFormPrincipal.BtRefreshTurmasClick(Sender: TObject);
 begin
-    TControllerTurmas.New.Listar(ComboPeriodo.Selected.Text, listaturmas);
-    TControllerFuncoes.New.LimpaTela;
+    TControllerFactory.New.turmas.Listar(ComboPeriodo.Selected.Text, listaturmas);
+    TControllerFactory.New.Funcoes.LimpaTela;
     BtRefreshTurmas.Enabled := True;
 end;
 
 procedure TFormPrincipal.BtSalvaConfigClick(Sender: TObject);
 begin
-    tControllerConfiguracao.New
+    TControllerFactory.New.Configuracao
      .Servidor(EdCFGServidor.Text)
      .UID(EdCFGUID.Text)
      .PWD(EdCFGPWD.Text)
@@ -377,7 +382,7 @@ procedure TFormPrincipal.ComboPeriodoChange(Sender: TObject);
 begin
     if ComboPeriodo.ItemIndex <> -1 then
      begin
-      TControllerTurmas.New.Listar(ComboPeriodo.Selected.Text, listaturmas);
+      TControllerFactory.New.turmas.Listar(ComboPeriodo.Selected.Text, listaturmas);
       FPeriodo := ComboPeriodo.Selected.Text;
       if FPeriodo[6] = '2' then
        begin
@@ -390,7 +395,7 @@ begin
         Meses4.IsChecked := true;
        end;
       BtRefreshTurmas.Enabled := True;
-      TControllerFuncoes.New.LimpaTela;
+      TControllerFactory.New.Funcoes.LimpaTela;
       BtGerarRams.Enabled := (ListaAlunos.Items.Count > 0);
      end;
 end;
@@ -400,7 +405,7 @@ var
    periodo : integer;
 begin
    periodo := StrToInt(Fperiodo[6]);
-   tcontrollerfuncoes.New.MontarMeses(periodo, strtoint(FMeses));
+   TControllerFactory.New.Funcoes.MontarMeses(periodo, strtoint(FMeses));
 end;
 
 procedure TFormPrincipal.ExibeSobre;
@@ -412,13 +417,13 @@ procedure TFormPrincipal.FormCreate(Sender: TObject);
 begin
     formprincipal.BtRefreshAlunos.Enabled := false;
     formprincipal.BtRefreshTurmas.Enabled := False;
-    TControllerFuncoes.New.LimpaTela;
+    TControllerFactory.New.Funcoes.LimpaTela;
     FMeses  := '4';
     FLicoes := '8';
     Meses4.IsChecked  := true;
     Licoes8.IsChecked := True;
     ReportMemoryLeaksOnShutdown := true;
-    TControllerPeriodos.New.Listar(ComboPeriodo);
+    TControllerFactory.New.Periodos.Listar(ComboPeriodo);
 end;
 
 procedure TFormPrincipal.ImgPrincipalClick(Sender: TObject);
@@ -447,7 +452,7 @@ procedure TFormPrincipal.ListaDatasCalendarioItemClick(
 var Cal: iControllerCalendario;
 begin
     TabCalendarios.Next();
-    Cal := tcontrollercalendario.New;
+    Cal := TControllerFactory.New.Calendario;
     cal.Busca(Item.Text);
     EdDias.Text := Cal.Dias;
     EdMes1.Text := Cal.Mes1;
@@ -467,7 +472,7 @@ procedure TFormPrincipal.ListaTurmasItemClick(const Sender: TCustomListBox;
   const Item: TListBoxItem);
 var Fturmas : icontrollerturmas;
 begin
-    Fturmas              := TControllerTurmas.New.Buscar(FPeriodo, item.Text);
+    Fturmas              :=  TControllerFactory.New.turmas.Buscar(FPeriodo, item.Text);
     FTurma               :=  FTurmas.Turma;
     FCod_cur             :=  Fturmas.Cod_cur;
     FNum_niv             :=  Fturmas.Num_Niv;
@@ -476,11 +481,11 @@ begin
     FDias                :=  Fturmas.Dias;
     FHorario             :=  Fturmas.Horario;
     FProfessor           :=  Fturmas.Professor;
-    Turma.Text           := FTurmas.Turma;
-    Horario.Text         := FTurmas.Horario;
-    Professor.Text       := FTurmas.Professor;
-    Dias.Text            := FTurmas.DiasApresentar;
-    media.ItemIndex      := media.Items.IndexOf(FTurmas.Media);
+    Turma.Text           :=  FTurmas.Turma;
+    Horario.Text         :=  FTurmas.Horario;
+    Professor.Text       :=  FTurmas.Professor;
+    Dias.Text            :=  FTurmas.DiasApresentar;
+    media.ItemIndex      :=  media.Items.IndexOf(FTurmas.Media);
     DefineMeses;
     BtRefreshAlunos.Enabled := true;
     Meses4.Enabled    := true;
@@ -492,19 +497,19 @@ begin
     De.Enabled        := true;
     ate.Enabled       := true;
     media.Enabled     := true;
-    TControllerFuncoes.New.DeterminarNumeroLicoes(FTurma);
-    TControllerAlunos.New.Listar(fperiodo, fcod_cur, fnum_niv, fnum_tur, ListaAlunos);
+    TControllerFactory.New.Funcoes.DeterminarNumeroLicoes(FTurma);
+    TControllerFactory.New.alunos.Listar(fperiodo, fcod_cur, fnum_niv, fnum_tur, ListaAlunos);
     BtGerarRams.Enabled := (ListaAlunos.Items.Count > 0);
 end;
 
 procedure TFormPrincipal.MenuCalendarioStartShowing(Sender: TObject);
 begin
-    tControllerCalendario.New.Listar(ListaDatasCalendario);
+    TControllerFactory.New.Calendario.Listar(ListaDatasCalendario);
 end;
 
 procedure TFormPrincipal.MenuPrincipalStartShowing(Sender: TObject);
 begin
-    tControllerConfiguracao.New
+    TControllerFactory.New.Configuracao
      .Servidor(EdCFGServidor)
      .UID(EdCFGUID)
      .PWD(EdCFGPWD)
