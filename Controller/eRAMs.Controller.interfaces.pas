@@ -66,6 +66,7 @@ Type
     Function MontarMeses (Periodo, Meses: integer): iControllerFuncoes;
     Function LimpaTela : iControllerFuncoes;
     Function DeterminarNumeroLicoes (Turma : string) : iControllerFuncoes;
+    Function NumLicoes (Turma : string) : string;
   end;
 
   iControllerCalendario = interface

@@ -15,6 +15,7 @@ Type
      Function MontarMeses (Periodo, Meses: integer): iControllerFuncoes;
      Function LimpaTela : iControllerFuncoes;
      Function DeterminarNumeroLicoes (Turma : string) : iControllerFuncoes;
+     Function NumLicoes (Turma : string) : string;
   End;
 
 implementation
@@ -108,6 +109,26 @@ end;
 class function TControllerFuncoes.New: iControllerFuncoes;
 begin
    Result := Self.Create;
+end;
+
+function TControllerFuncoes.NumLicoes(Turma: string): string;
+begin
+    if Pos('ENGLISH 1-2', uppercase(Turma)) > 0 then
+      Result := '14'
+    else
+    if Pos('ENGLISH', uppercase(Turma)) > 0 then
+      Result := '10'
+    else
+    if Pos('TEEN 5', uppercase(Turma)) > 0 then
+     Result := '12'
+    else
+    if Pos('TEEN 6', uppercase(Turma)) > 0 then
+     Result := '12'
+    else
+    if Pos('TEEN/ADULT', uppercase(Turma)) > 0 then
+     Result := '8'
+    else
+     Result := '10';
 end;
 
 end.

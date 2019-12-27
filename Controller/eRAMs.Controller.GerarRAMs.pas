@@ -117,7 +117,6 @@ begin
     procedure
     begin
       FormPrincipal.MsgAnimation.Enabled := False;
-      //sleep(1000);
       FormPrincipal.TabMensagem.Next();
       FormPrincipal.AnimaMsgFecha.Start;
     end

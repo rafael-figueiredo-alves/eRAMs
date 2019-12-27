@@ -46,11 +46,12 @@ Type
       FAvalia3   : string;
       FAvalia4   : string;
       FAvalia5   : string;
-      FExcel     : OleVariant;
+      FExcel : Variant;
       Procedure DefinePastaRAMs;
       Procedure CarregaCalendario;
       Function RAMexiste (Value : string) : boolean;
       Procedure CriaMesesAvalia;
+      Procedure GerarRelatorio(Value : string);
     Public
       Constructor Create;
       Destructor Destroy; Override;
@@ -129,6 +130,9 @@ begin
    Femail     := config.Email;
    FInstagram := Config.Instagram;
    Fpasta     := Config.PastaRams;
+   CoInitializeEx(nil, COINIT_APARTMENTTHREADED);
+   FExcel :=  CreateOleObject('Excel.Application');
+   FExcel.displayalerts:= false;
 end;
 
 procedure TModelRAMs.CriaMesesAvalia;
@@ -184,7 +188,8 @@ end;
 
 destructor TModelRAMs.Destroy;
 begin
-
+  FExcel.quit;
+  FExcel := Unassigned;
   inherited;
 end;
 
@@ -222,9 +227,7 @@ end;
 
 function TModelRAMs.Gerar: Boolean;
 Var
-    VersaoExcel  : string;
     Aluno        : string;
-    ArquivoFinal : string;
 begin
 
    //Realiza últimas associações de valores necessários
@@ -232,20 +235,29 @@ begin
    CarregaCalendario;
    CriaMesesAvalia;
 
+   //Processo Principal
+   //CoInitializeEx(nil, COINIT_APARTMENTTHREADED);
    for aluno in Falunos do
     begin
+     GerarRelatorio(Aluno);
+    end;
+   Result := True;
+end;
+
+procedure TModelRAMs.GerarRelatorio(Value: string);
+Var
+    VersaoExcel  : string;
+    ArquivoFinal : string;
+begin
      ArquivoFinal := '';
-     ArquivoFinal := Fpasta + TModelFactory.New.Funcoes.FormataNomeAluno(Aluno) + '.xlsm';
+     ArquivoFinal := Fpasta + TModelFactory.New.Funcoes.FormataNomeAluno(Value) + '.xlsm';
      if not RAMexiste(ArquivoFinal) then
       begin
 
-       //Processo Principal
-       CoInitializeEx(nil, COINIT_MULTITHREADED);
-       FExcel :=  CreateOleObject('Excel.Application');
-       FExcel.displayalerts:= false;
+
 
        //Abre Modelo do Relatório
-       FExcel.workbooks[1].open(extractfilepath(paramstr(0))+'modelo\eRAMs.Modelo.xlsm');
+       FExcel.workbooks.open(extractfilepath(paramstr(0))+'modelo\eRAMs.Modelo.xlsm');
 
        //Cabeçalho do Relatório
        FExcel.workbooks[1].sheets[1].unprotect('ccaa');
@@ -257,7 +269,7 @@ begin
        FExcel.workbooks[1].sheets[1].protect('ccaa');
 
        //Dados do Aluno
-       FExcel.workbooks[1].sheets[1].cells[8,2]:= TModelFactory.New.Funcoes.FormataNomeAluno(Aluno); //Nome do Aluno
+       FExcel.workbooks[1].sheets[1].cells[8,2]:= TModelFactory.New.Funcoes.FormataNomeAluno(Value); //Nome do Aluno
        FExcel.workbooks[1].sheets[1].cells[10,3]:= Fturma; //Turma do Aluno
        FExcel.workbooks[1].sheets[1].cells[10,8]:= Fhorario; //Horário da turma
        FExcel.workbooks[1].sheets[1].cells[10,13]:= TModelFactory.New.Funcoes.FormataNomeProfessor(Fprofessor); //Professor da Turma
@@ -319,16 +331,13 @@ begin
        //Testa versão do Excel para salvar arquivo corretamente
        VersaoExcel:= GetStrNumber(FExcel.version);
        if VersaoExcel.ToInteger < 120 then
-        FExcel.workbooks[1].saveas(Fpasta + TModelFactory.New.Funcoes.FormataNomeAluno(Aluno) + '.xlsm')
+        FExcel.workbooks[1].saveas(Fpasta + TModelFactory.New.Funcoes.FormataNomeAluno(Value) + '.xlsm')
        Else
-        FExcel.workbooks[1].saveas(Fpasta + TModelFactory.New.Funcoes.FormataNomeAluno(Aluno) + '.xlsm', 52);
+        FExcel.workbooks[1].saveas(Fpasta + TModelFactory.New.Funcoes.FormataNomeAluno(Value) + '.xlsm', 52);
 
        //Fecha Modelo Excel para reabrir
-       Fexcel.quit;
-       FExcel := Unassigned;
-      end;
-    end;
-   Result := True;
+       Fexcel.workbooks[1].close(False);
+end;
 end;
 
 function TModelRAMs.Horario(Value: string): iModelRAMs;

@@ -498,6 +498,7 @@ begin
     ate.Enabled       := true;
     media.Enabled     := true;
     TControllerFactory.New.Funcoes.DeterminarNumeroLicoes(FTurma);
+    FLicoes := TControllerFactory.New.Funcoes.NumLicoes(Fturma);
     TControllerFactory.New.alunos.Listar(fperiodo, fcod_cur, fnum_niv, fnum_tur, ListaAlunos);
     BtGerarRams.Enabled := (ListaAlunos.Items.Count > 0);
 end;
