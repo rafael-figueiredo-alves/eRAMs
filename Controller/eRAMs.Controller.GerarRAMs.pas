@@ -3,7 +3,7 @@ unit eRAMs.Controller.GerarRAMs;
 interface
 
 uses
-  eRAMs.Controller.interfaces, System.Classes;
+  eRAMs.Controller.interfaces, System.Classes, eRAMs.Controller.Consts;
 
 Type
   TControllerRAMs = Class(TInterfacedObject, iControllerRAMs)
@@ -19,6 +19,7 @@ Type
       FFim       : integer;
       FLicoes    : string;
       FAlunos    : tStrings;
+      FEvStatus  : TAtualizaStatusRAMs;
     Public
       Constructor Create;
       Destructor Destroy; Override;
@@ -34,6 +35,7 @@ Type
       Function Fim (value : integer) : iControllerRAMs;
       Function licoes (Value : string) : iControllerRAMs;
       Function Alunos (Alunos : tstrings) : iControllerRAMs;
+      Function EvStatus (Value : TAtualizaStatusRAMs) : iControllerRAMs;
       Function Gerar : iControllerRAMs;
   End;
 
@@ -67,6 +69,12 @@ begin
     Fdias := Value;
 end;
 
+function TControllerRAMs.EvStatus(Value: TAtualizaStatusRAMs): iControllerRAMs;
+begin
+   Result := self;
+   FEvStatus := Value;
+end;
+
 function TControllerRAMs.Fim(value: integer): iControllerRAMs;
 begin
    Result := Self;
@@ -74,11 +82,11 @@ begin
 end;
 
 function TControllerRAMs.Gerar: iControllerRAMs;
-Var Resultado : boolean;
+Var
     Dias, turmas, media, professor, meses, periodo, licoes, horario : string;
     inicio, Fim : Integer;
     alunos : TStrings;
-    aluno : string;
+    Evento : TAtualizaStatusRAMs;
 begin
    Result := self;
    {for aluno in FAlunos do
@@ -94,6 +102,7 @@ begin
    Fim := FFim;
    alunos := FAlunos;
    Horario := FHorario;
+   Evento := FEvStatus;
    formprincipal.LayMsg.Visible := true;
    FormPrincipal.TabMensagem.ActiveTab := formprincipal.TabProcessando;
    FormPrincipal.MsgAnimation.Enabled := true;
@@ -111,6 +120,7 @@ begin
                 .Inicio(Inicio)
                 .Fim(Fim)
                 .licoes(Licoes)
+                .EvStatus(Evento)
                 .Alunos(Alunos)
                 .Gerar;
     TThread.Synchronize(tthread.CurrentThread,

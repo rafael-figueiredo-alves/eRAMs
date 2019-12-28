@@ -22,7 +22,9 @@ uses
   eRAMs.Model.GerarRAMs in 'Model\eRAMs.Model.GerarRAMs.pas',
   eRAMs.Model.Factory in 'Model\eRAMs.Model.Factory.pas',
   eRAMs.Controller.Factory in 'Controller\eRAMs.Controller.Factory.pas',
-  eRAMs.Model.Funcoes in 'Model\eRAMs.Model.Funcoes.pas';
+  eRAMs.Model.Funcoes in 'Model\eRAMs.Model.Funcoes.pas',
+  eRAMs.Controller.Consts in 'Controller\eRAMs.Controller.Consts.pas',
+  eRAMs.Model.Consts3 in 'Model\eRAMs.Model.Consts3.pas';
 
 {$R *.res}
 

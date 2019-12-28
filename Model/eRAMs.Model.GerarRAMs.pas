@@ -3,7 +3,7 @@ unit eRAMs.Model.GerarRAMs;
 interface
 
 uses
-  eRAMs.Model.Interfaces, System.Classes;
+  eRAMs.Model.Interfaces, System.Classes, eRAMs.Model.Consts3;
 
 Type
   TModelRAMs = Class(TInterfacedObject, iModelRAMs)
@@ -46,6 +46,7 @@ Type
       FAvalia3   : string;
       FAvalia4   : string;
       FAvalia5   : string;
+      FEvStatus  : TAtualizaStatusRAMs;
       FExcel : Variant;
       Procedure DefinePastaRAMs;
       Procedure CarregaCalendario;
@@ -67,6 +68,7 @@ Type
       Function Fim (value : integer) : iModelRAMs;
       Function licoes (Value : string) : iModelRAMs;
       Function Alunos (Alunos : tstrings) : iModelRAMs;
+      Function EvStatus (Value : TAtualizaStatusRAMs) : iModelRAMs;
       Function Gerar : Boolean;
   End;
 
@@ -199,6 +201,12 @@ begin
    Fdias := Value;
 end;
 
+function TModelRAMs.EvStatus(Value: TAtualizaStatusRAMs): iModelRAMs;
+begin
+    Result := self;
+    FEvStatus := Value;
+end;
+
 function TModelRAMs.Fim(value: integer): iModelRAMs;
 begin
    Result := Self;
@@ -239,6 +247,7 @@ begin
    //CoInitializeEx(nil, COINIT_APARTMENTTHREADED);
    for aluno in Falunos do
     begin
+     FEvStatus(Falunos.IndexOf(aluno), Falunos.Count);
      GerarRelatorio(Aluno);
     end;
    Result := True;

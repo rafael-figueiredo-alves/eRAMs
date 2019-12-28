@@ -202,6 +202,7 @@ type
     MsgAnimation: TAniIndicator;
     AnimaMsgAbre: TFloatAnimation;
     AnimaMsgFecha: TFloatAnimation;
+    Layout1: TLayout;
     procedure MenuPrincipalStartShowing(Sender: TObject);
     procedure BtSalvaConfigClick(Sender: TObject);
     procedure BtRefreshPeriodosClick(Sender: TObject);
@@ -242,6 +243,7 @@ type
     FProfessor  : string;
     Procedure DefineMeses;
     Procedure ExibeSobre;
+    Procedure StatusRAMs (Aluno, alunos : Integer);
   public
     { Public declarations }
   end;
@@ -327,6 +329,7 @@ end;
 
 procedure TFormPrincipal.BtGerarRamsClick(Sender: TObject);
 begin
+    LabelMsg2.Text := 'Iniciando geração de RAMs ... Por favor, aguarde ...';
     TControllerFactory.New.RAMs
                        .Dias(FDias)
                        .Turma(FTurma)
@@ -338,6 +341,7 @@ begin
                        .Inicio(De.Selected.Index+1)
                        .Fim(ate.Selected.Index+1)
                        .licoes(FLicoes)
+                       .EvStatus(StatusRAMs)
                        .Alunos(ListaAlunos.Items)
                        .Gerar;
 end;
@@ -536,5 +540,10 @@ begin
      DefineMeses;
 end;
 
+
+procedure TFormPrincipal.StatusRAMs(Aluno, alunos: Integer);
+begin
+    LabelMsg2.Text := 'Gerando '+aluno.ToString+' de '+alunos.ToString+' relatórios. Por favor, aguarde...';
+end;
 
 end.

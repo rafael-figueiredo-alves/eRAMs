@@ -3,7 +3,7 @@ unit eRAMs.Model.Interfaces;
 interface
 
 uses
-  FireDAC.Comp.Client, System.Classes;
+  FireDAC.Comp.Client, System.Classes, eRAMs.Model.Consts3;
 
 
 Type
@@ -85,6 +85,7 @@ Type
     Function Fim (value : integer) : iModelRAMs;
     Function licoes (Value : string) : iModelRAMs;
     Function Alunos (Alunos : tstrings) : iModelRAMs;
+    Function EvStatus (Value : TAtualizaStatusRAMs) : iModelRAMs;
     Function Gerar : Boolean;
   end;
 

@@ -5,7 +5,7 @@
         <FrameworkType>FMX</FrameworkType>
         <MainSource>eRAMs.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1119</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -340,7 +340,7 @@
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Locale>1046</VerInfo_Locale>
         <Icon_MainIcon>Icones e Imagens\novo_ico.ico</Icon_MainIcon>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
         <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
@@ -383,6 +383,8 @@
         <DCCReference Include="Model\eRAMs.Model.Factory.pas"/>
         <DCCReference Include="Controller\eRAMs.Controller.Factory.pas"/>
         <DCCReference Include="Model\eRAMs.Model.Funcoes.pas"/>
+        <DCCReference Include="Controller\eRAMs.Controller.Consts.pas"/>
+        <DCCReference Include="Model\eRAMs.Model.Consts3.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

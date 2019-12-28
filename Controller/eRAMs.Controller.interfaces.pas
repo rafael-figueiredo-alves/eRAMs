@@ -4,7 +4,7 @@ interface
 
 uses
   eRAMs.Model.Interfaces, FMX.ListBox,
-  System.Classes;
+  System.Classes, eRAMs.Controller.Consts;
 
 Type
 
@@ -111,6 +111,7 @@ Type
     Function Fim (value : integer) : iControllerRAMs;
     Function licoes (Value : string) : iControllerRAMs;
     Function Alunos (Alunos : tstrings) : iControllerRAMs;
+    Function EvStatus (Value : TAtualizaStatusRAMs) : iControllerRAMs;
     Function Gerar : iControllerRAMs;
   end;
 
